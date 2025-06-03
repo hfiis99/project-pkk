@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>STAR SANDWICH</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fffbe6;
+        }
+        header {
+            background-color: #e67e22;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        nav {
+            background-color: #d35400;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #f39c12;
+            color: black;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 30px;
+        }
+        .product {
+            background-color: #fff;
+            border: 1px solid #f1c40f;
+            border-radius: 10px;
+            margin: 15px;
+            padding: 15px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .product:hover {
+            transform: scale(1.05);
+        }
+        .product img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        button {
+            background-color: #e67e22;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #d35400;
+        }
+        #cart {
+            background-color: #fff;
+            border-top: 2px solid #f1c40f;
+            padding: 20px;
+            text-align: center;
+        }
+        #cart-items {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .wa-button {
+            background-color: #25d366;
+            margin-top: 10px;
+        }
+        .wa-button:hover {
+            background-color: #128c7e;
+        }
+        footer {
+            background-color: #f1c40f;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>STAR SANDWICH</h1>
+    <p>Nikmati sandwich segar dan lezat setiap hari!</p>
+</header>
+
+<nav>
+    <a href="#">Beranda</a>
+    <a href="#">Menu</a>
+    <a href="#">Tentang Kami</a>
+    <a href="#">Kontak</a>
+</nav>
+
+<div class="container">
+    <div class="product">
+        <img src="https://raw.githubusercontent.com/tristan27278/StarSandwich/refs/heads/main/img/Varian%20Pisang.png" alt="Sandwich Pisang">
+        <h3>Sandwich Pisang</h3>
+        <p>Rp 7.000</p>
+        <button onclick="addToCart('Sandwich Pisang', 7000)">Beli Sekarang</button>
+    </div>
+    <div class="product">
+        <img src="https://raw.githubusercontent.com/tristan27278/StarSandwich/refs/heads/main/img/Varian%20Anggur.png" alt="Sandwich Anggur">
+        <h3>Sandwich Anggur</h3>
+        <p>Rp 7.000</p>
+        <button onclick="addToCart('Sandwich Anggur', 7000)">Beli Sekarang</button>
+    </div>
+    <div class="product">
+        <img src="https://raw.githubusercontent.com/tristan27278/StarSandwich/refs/heads/main/img/Varian%20Strawberry.png" alt="Sandwich Strawberry">
+        <h3>Sandwich Strawberry</h3>
+        <p>Rp 7.000</p>
+        <button onclick="addToCart('Sandwich Strawberry', 7000)">Beli Sekarang</button>
+    </div>
+</div>
+
+<div id="cart">
+    <h2>🛒 Keranjang Belanja</h2>
+    <div id="cart-items">Belum ada item di keranjang.</div>
+    <button onclick="clearCart()">Kosongkan Keranjang</button>
+    <button class="wa-button" onclick="checkoutWA()">Checkout via WhatsApp</button>
+</div>
+
+<footer>
+    <p>&copy; 2025 STAR SANDWICH. Dibuat dengan rasa cinta dan selera tinggi!</p>
+</footer>
+
+<script>
+    let cart = [];
+
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+        if (cart.length === 0) {
+            document.getElementById('cart-items').innerHTML = 'Belum ada item di keranjang.';
+            return;
+        }
+
+        let itemsHTML = '<ul style="list-style: none; padding: 0;">';
+        let total = 0;
+
+        cart.forEach(item => {
+            itemsHTML += `<li>${item.name} - Rp ${item.price.toLocaleString()}</li>`;
+            total += item.price;
+        });
+
+        itemsHTML += `</ul><strong>Total: Rp ${total.toLocaleString()}</strong>`;
+        document.getElementById('cart-items').innerHTML = itemsHTML;
+    }
+
+    function clearCart() {
+        cart = [];
+        updateCartDisplay();
+    }
+
+    function checkoutWA() {
+        if (cart.length === 0) {
+            alert("Keranjang masih kosong!");
+            return;
+        }
+
+        let message = "Halo! Saya ingin memesan:\n";
+        let total = 0;
+
+        cart.forEach(item => {
+            message += `- ${item.name} (Rp ${item.price.toLocaleString()})\n`;
+            total += item.price;
+        });
+
+        message += `\nTotal: Rp ${total.toLocaleString()}\nTerima kasih!`;
+        const phone = "083153192023";
+
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
+</script>
+
+</body>
+</html>
